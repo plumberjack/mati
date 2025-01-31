@@ -4,6 +4,7 @@
     "": {
       "name": "mati",
       "dependencies": {
+        "@react-router/fs-routes": "^7.1.4",
         "@react-router/node": "^7.1.4",
         "@react-router/serve": "^7.1.4",
         "isbot": "^5.1.17",
@@ -17,6 +18,7 @@
         "@types/node": "^20",
         "@types/react": "^19.0.1",
         "@types/react-dom": "^19.0.1",
+        "bun-types": "^1.2.1",
         "react-router-devtools": "^1.1.0",
         "tailwindcss": "^4.0.0",
         "typescript": "^5.7.2",
@@ -246,6 +248,8 @@
 
     "@react-router/express": ["@react-router/express@7.1.4", "", { "dependencies": { "@react-router/node": "7.1.4" }, "peerDependencies": { "express": "^4.17.1", "react-router": "7.1.4", "typescript": "^5.1.0" }, "optionalPeers": ["typescript"] }, "sha512-mRQENitGitHohLLwu/vUahu463KO6jx8tPJIHhmbBblQk+Fyxs5ernJHxJe1ahm/BS1heGVGn1geWOLUuZ/+uw=="],
 
+    "@react-router/fs-routes": ["@react-router/fs-routes@7.1.4", "", { "dependencies": { "minimatch": "^9.0.0" }, "peerDependencies": { "@react-router/dev": "^7.1.4", "typescript": "^5.1.0" }, "optionalPeers": ["typescript"] }, "sha512-EBf2hefhKbyt+5dkxRntqC5rFGLw1K91EkMGhX2dfvybWWQYGb98if6PDUMeU/h4F4h5VKV1VrHd6MMyGpuvgQ=="],
+
     "@react-router/node": ["@react-router/node@7.1.4", "", { "dependencies": { "@mjackson/node-fetch-server": "^0.2.0", "source-map-support": "^0.5.21", "stream-slice": "^0.1.2", "undici": "^6.19.2" }, "peerDependencies": { "react-router": "7.1.4", "typescript": "^5.1.0" }, "optionalPeers": ["typescript"] }, "sha512-TeCZMrFmMSjLI2HeUalL44P48+AEJyzO3lIUbR0ucFKq95tB0hu+X8daaLQlpbwGK4dL5i27kHiGiuMhVbynOQ=="],
 
     "@react-router/serve": ["@react-router/serve@7.1.4", "", { "dependencies": { "@react-router/express": "7.1.4", "@react-router/node": "7.1.4", "compression": "^1.7.4", "express": "^4.19.2", "get-port": "5.1.1", "morgan": "^1.10.0", "source-map-support": "^0.5.21" }, "peerDependencies": { "react-router": "7.1.4" }, "bin": { "react-router-serve": "bin.js" } }, "sha512-dU21Zz25hHxxdTsdOQqUy/gZLSYHb+TACrDVYPpIQxD1iByE9/mdNUeGUcb/zYnC0WgqYYbZp3SE9fDRvYscEA=="],
@@ -330,6 +334,8 @@
 
     "@types/react-dom": ["@types/react-dom@19.0.3", "", { "peerDependencies": { "@types/react": "^19.0.0" } }, "sha512-0Knk+HJiMP/qOZgMyNFamlIjw9OFCsyC2ZbigmEEyXXixgre6IQpm/4V+r3qH4GC1JPvRJKInw+on2rV6YZLeA=="],
 
+    "@types/ws": ["@types/ws@8.5.14", "", { "dependencies": { "@types/node": "*" } }, "sha512-bd/YFLW+URhBzMXurx7lWByOu+xzU9+kb3RboOteXYDfW+tr+JZa99OyNmPINEGB/ahzKrEuc8rcv4gnpJmxTw=="],
+
     "abbrev": ["abbrev@2.0.0", "", {}, "sha512-6/mh1E2u2YgEsCHdY0Yx5oW+61gZU+1vXaoiHHrpKeuRNNgFvS+/jrwHiQhB5apAf5oB7UB7E19ol2R2LKH8hQ=="],
 
     "accepts": ["accepts@1.3.8", "", { "dependencies": { "mime-types": "~2.1.34", "negotiator": "0.6.3" } }, "sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw=="],
@@ -363,6 +369,8 @@
     "browserslist": ["browserslist@4.24.4", "", { "dependencies": { "caniuse-lite": "^1.0.30001688", "electron-to-chromium": "^1.5.73", "node-releases": "^2.0.19", "update-browserslist-db": "^1.1.1" }, "bin": { "browserslist": "cli.js" } }, "sha512-KDi1Ny1gSePi1vm0q4oxSF8b4DR44GF4BbmS2YdhPLOEqd8pDviZOGH/GsmRwoWJ2+5Lr085X7naowMwKHDG1A=="],
 
     "buffer-from": ["buffer-from@1.1.2", "", {}, "sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ=="],
+
+    "bun-types": ["bun-types@1.2.1", "", { "dependencies": { "@types/node": "*", "@types/ws": "~8.5.10" } }, "sha512-p7bmXUWmrPWxhcbFVk7oUXM5jAGt94URaoa3qf4mz43MEhNAo/ot1urzBqctgvuq7y9YxkuN51u+/qm4BiIsHw=="],
 
     "bytes": ["bytes@3.1.2", "", {}, "sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg=="],
 
