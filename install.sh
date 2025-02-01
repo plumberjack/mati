@@ -5,8 +5,11 @@ MATI_DIR="$HOME/.mati"
 REPO_URL="https://github.com/plumberjack/mati/archive/main.zip"
 TEMP_ZIP="$MATI_DIR/mati-main.zip"
 
-# Create the .mati directory
-mkdir -p "$MATI_DIR"
+# Check if mati is installed
+if find "$MATI_DIR" -mindepth 1 -maxdepth 1 | read; then
+  echo "mati is already installed. Exiting installation."
+  exit 0
+fi
 
 # Check if bun is installed
 if ! command -v bun &> /dev/null; then
@@ -24,6 +27,9 @@ if ! command -v bun &> /dev/null; then
   fi
 fi
 
+# Create the .mati directory
+mkdir -p "$MATI_DIR"
+
 # Download the repository as a ZIP file
 echo "Downloading the repository..."
 curl -fsSL "$REPO_URL" -o "$TEMP_ZIP"
@@ -36,31 +42,39 @@ fi
 
 # Extract the /bin directory from the ZIP file
 echo "Extracting the /bin directory..."
-unzip -q "$TEMP_ZIP" "mati-main/bin/*" -d "$MATI_DIR"
+unzip -q "$TEMP_ZIP" "mati-main/bin/*" -d "$MATI_DIR/core"
 
-# Move the contents of /bin to the .mati directory
-mv "$MATI_DIR/mati-main/bin"/* "$MATI_DIR/"
+# Move the contents of /bin to the .mati directory 
+mv "$MATI_DIR/core/mati-main/bin"/* "$MATI_DIR/core" 
 
 # Clean up
-rm -rf "$TEMP_ZIP" "$MATI_DIR/mati-main"
+rm -rf "$TEMP_ZIP" "$MATI_DIR/core/mati-main"
 
 # Create a wrapper script for the `mati` command
 echo "Creating the 'mati' command..."
 cat << 'EOF' > "$MATI_DIR/mati"
 #!/bin/bash
 # Pass all arguments to cli.js
-node "$(dirname "$0")/cli.js" "$@"
+bun run "$(dirname "$0")/core/cli.js" "$@"
 EOF
 
 # Make the wrapper script executable
 chmod +x "$MATI_DIR/mati"
 
-# Add the .mati directory to the PATH in the user's shell configuration
-if [[ ":$PATH:" != *":$MATI_DIR:"* ]]; then
-  echo "Adding $MATI_DIR to PATH..."
-  echo "export PATH=\"\$PATH:$MATI_DIR\"" >> "$HOME/.bashrc"
-  echo "export PATH=\"\$PATH:$MATI_DIR\"" >> "$HOME/.zshrc"
-fi
+add_to_path() {
+  local FILE="$1"
+  if [ -f "$FILE" ]; then
+    if ! grep -q "export PATH=\"\$PATH:$MATI_DIR\"" "$FILE"; then
+      echo "Adding $MATI_DIR to PATH in $FILE..."
+      echo "export PATH=\"\$PATH:$MATI_DIR\"" >> "$FILE"
+    else
+      echo "PATH already exists in \"$FILE\". Skipping..."
+    fi
+  fi
+}
+
+add_to_path "$HOME/.bashrc"
+add_to_path "$HOME/.zshrc"
 
 # Notify the user
 echo "Installation complete! You can now use 'mati'!"
