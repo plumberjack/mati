@@ -8,6 +8,22 @@ TEMP_ZIP="$MATI_DIR/mati-main.zip"
 # Create the .mati directory
 mkdir -p "$MATI_DIR"
 
+# Check if bun is installed
+if ! command -v bun &> /dev/null; then
+  echo "bun is not installed. It is required to run the 'mati' CLI."
+  read -p "Do you want to install bun to continue? (yes/no): " INSTALL_BUN
+
+  if [[ "$INSTALL_BUN" == "yes" || "$INSTALL_BUN" == "y" ]]; then
+    echo "Installing bun..."
+    curl -fsSL https://bun.sh/install | bash
+    # Ensure bun is available in the current session
+    export PATH="$HOME/.bun/bin:$PATH"
+  else
+    echo "bun is required to proceed. Exiting installation."
+    exit 1
+  fi
+fi
+
 # Download the repository as a ZIP file
 echo "Downloading the repository..."
 curl -fsSL "$REPO_URL" -o "$TEMP_ZIP"
@@ -47,5 +63,5 @@ if [[ ":$PATH:" != *":$MATI_DIR:"* ]]; then
 fi
 
 # Notify the user
-echo "Installation complete! You can now use the 'mati' command."
-echo "Please restart your terminal or run 'source ~/.bashrc' (or 'source ~/.zshrc') to apply changes."
+echo "Installation complete! You can now use 'mati'!"
+echo "Restart your terminal or run 'source ~/.bashrc' (or 'source ~/.zshrc') to apply changes."
