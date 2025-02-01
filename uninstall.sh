@@ -17,7 +17,7 @@ remove_from_path() {
   if [ -f "$FILE" ]; then
     if grep -q "export PATH=\"\$PATH:$MATI_DIR\"" "$FILE"; then
       echo "Removing $MATI_DIR from PATH in $FILE..."
-      sed -i.bak "/export PATH=\"\$PATH:$MATI_DIR\"/d" "$FILE"
+      sed -i.bak "export PATH=\"\$PATH:$MATI_DIR\"/d" "$FILE"
     else
       echo "$MATI_DIR not found in PATH in $FILE. Skipping."
     fi
