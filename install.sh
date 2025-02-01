@@ -7,12 +7,13 @@ MATI_DIR="$HOME/.mati"
 mkdir -p "$MATI_DIR"
 
 # Download the JS scripts into .mati directory
+mkdir -p "$MATI_DIR/bin"
 curl -o "$MATI_DIR/bin/cli.js" https://raw.githubusercontent.com/plumberjack/mati/refs/heads/main/bin/cli.js
 
 # Create a wrapper script for `mati` command
 cat << 'EOF' > "$MATI_DIR/mati"
 #!/bin/bash
-node "$(dirname "$0")/cli.js" "$@"
+node "$(dirname "$0")/bin/cli.js" "$@"
 EOF
 
 # Make the wrapper script executable
