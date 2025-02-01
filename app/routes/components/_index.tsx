@@ -2,8 +2,6 @@ import { useFetcher } from 'react-router';
 import { createAction, createLoader } from '~/utils';
 
 export const loader = createLoader(({ params }) => {
-  console.log('loader params', params);
-
   return Response.json('henlo');
 });
 

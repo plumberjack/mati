@@ -1,0 +1,1 @@
+import{w as r}from"./with-props-hvZVBJs_.js";import{u as o,j as e}from"./chunk-W3FMU5Y5-DJFVBQA8.js";const i=r(function(){const t=o();return e.jsx("div",{children:e.jsxs(t.Form,{method:"post",children:[e.jsx("input",{name:"email",type:"email",required:!0,placeholder:"email"}),e.jsx("button",{children:"send"})]})})});export{i as default};
