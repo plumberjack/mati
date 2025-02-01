@@ -16,7 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "@service/*": ["./app/services/*"]
+      "@service/*": ["./app/services/*"],
+      "@loco/elements/*": ["./libs/loco/elements/*"],
+      "@loco/contexts/*": ["./libs/loco/contexts/*"]
     },
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,
