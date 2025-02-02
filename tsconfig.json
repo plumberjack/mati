@@ -15,10 +15,7 @@
     "rootDirs": [".", "./.react-router/types"],
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"],
-      "@service/*": ["./app/services/*"],
-      "@loco/elements/*": ["./libs/loco/elements/*"],
-      "@loco/contexts/*": ["./libs/loco/contexts/*"]
+      "~/*": ["./app/*"]
     },
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,

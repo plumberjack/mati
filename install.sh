@@ -2,17 +2,28 @@
 
 # Define the directory name
 MATI_DIR="$HOME/.mati"
-REPO_URL="https://github.com/plumberjack/mati/archive/main.zip"
 TEMP_ZIP="$MATI_DIR/mati-main.zip"
+REPO_URL="https://github.com/plumberjack/mati/archive/main.zip"
 
 # Check if mati is installed
-if find "$MATI_DIR" -mindepth 1 -maxdepth 1 | read; then
-  echo "mati is already installed. Exiting installation."
-  exit 0
+if [ -d "$MATI_DIR" ]; then
+  echo ""
+  read -p "Do you want to remove previous installation of mati? (Yes/no): " REMOVE_MATI
+  if [[ "$REMOVE_MATI" == "no" || "$REMOVE_MATI" == "No" || "$REMOVE_MATI" == "NO" ]]; then
+    echo "New version of mati will not be installed. Exiting installation."
+    echo ""
+    exit 0
+  else
+    echo ""
+    echo "Removing $MATI_DIR for fresh install..."
+    rm -rf "$MATI_DIR"
+  fi
 fi
+
 
 # Check if bun is installed
 if ! command -v bun &> /dev/null; then
+  echo ""
   echo "bun is not installed. It is required to run the 'mati' CLI."
   read -p "Do you want to install bun to continue? (yes/no): " INSTALL_BUN
 
@@ -21,6 +32,7 @@ if ! command -v bun &> /dev/null; then
     curl -fsSL https://bun.sh/install | bash
     # Ensure bun is available in the current session
     export PATH="$HOME/.bun/bin:$PATH"
+    echo "Bun installed..."
   else
     echo "bun is required to proceed. Exiting installation."
     exit 1
@@ -48,27 +60,27 @@ unzip -q "$TEMP_ZIP" "mati-main/bin/*" -d "$MATI_DIR/core"
 mv "$MATI_DIR/core/mati-main/bin"/* "$MATI_DIR/core" 
 
 # Clean up
+echo "Cleaning up temporary files..."
 rm -rf "$TEMP_ZIP" "$MATI_DIR/core/mati-main"
+ 
+echo "Registering 'mati' locally..."
 
-# Create a wrapper script for the `mati` command
-echo "Creating the 'mati' command..."
-cat << 'EOF' > "$MATI_DIR/mati"
+# Create a wrapper script for `mati` and make it executable
+MATI_EXE="$MATI_DIR/mati"
+cat << 'EOF' > "$MATI_EXE"
 #!/bin/bash
 # Pass all arguments to cli.js
 bun run "$(dirname "$0")/core/cli.js" "$@"
 EOF
+chmod +x "$MATI_EXE"
 
-# Make the wrapper script executable
-chmod +x "$MATI_DIR/mati"
-
+# Register the wrapper script
 add_to_path() {
   local FILE="$1"
   if [ -f "$FILE" ]; then
     if ! grep -q "export PATH=\"\$PATH:$MATI_DIR\"" "$FILE"; then
       echo "Adding $MATI_DIR to PATH in $FILE..."
-      echo "export PATH=\"\$PATH:$MATI_DIR\"" >> "$FILE"
-    else
-      echo "PATH already exists in \"$FILE\". Skipping..."
+      echo "export PATH=\"\$PATH:$MATI_DIR\"" >> "$FILE" 
     fi
   fi
 }
@@ -76,6 +88,9 @@ add_to_path() {
 add_to_path "$HOME/.bashrc"
 add_to_path "$HOME/.zshrc"
 
+
 # Notify the user
+echo ""
 echo "Installation complete! You can now use 'mati'!"
-echo "Restart your terminal or run 'source ~/.bashrc' (or 'source ~/.zshrc') to apply changes."
+echo "Restart your terminal or run 'source ~/.bashrc' (source ~/.zshrc) for changes."
+echo ""

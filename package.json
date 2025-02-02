@@ -7,7 +7,7 @@
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
-    "bin": "react-router build && bun build cli/index.ts --outdir ./bin && mv bin/index.js bin/cli.js && bun build server/main.ts --outdir ./bin/server"
+    "bin": "react-router build && bun build core/cli/index.ts --outdir ./bin --target bun && mv bin/index.js bin/cli.js && bun build core/server/main.ts --outdir ./bin/server --target bun"
   },
   "dependencies": {
     "@listr2/prompt-adapter-enquirer": "^2.0.12",
