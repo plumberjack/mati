@@ -5,25 +5,23 @@ MATI_DIR="$HOME/.mati"
 TEMP_ZIP="$MATI_DIR/mati-main.zip"
 REPO_URL="https://github.com/plumberjack/mati/archive/main.zip"
 
+echo ""
+
 # Check if mati is installed
 if [ -d "$MATI_DIR" ]; then
-  echo ""
   read -p "Do you want to remove previous installation of mati? (Yes/no): " REMOVE_MATI
   if [[ "$REMOVE_MATI" == "no" || "$REMOVE_MATI" == "No" || "$REMOVE_MATI" == "NO" ]]; then
     echo "New version of mati will not be installed. Exiting installation."
     echo ""
     exit 0
   else
-    echo ""
     echo "Removing $MATI_DIR for fresh install..."
     rm -rf "$MATI_DIR"
   fi
 fi
 
-
 # Check if bun is installed
 if ! command -v bun &> /dev/null; then
-  echo ""
   echo "bun is not installed. It is required to run the 'mati' CLI."
   read -p "Do you want to install bun to continue? (yes/no): " INSTALL_BUN
 
@@ -39,7 +37,7 @@ if ! command -v bun &> /dev/null; then
   fi
 fi
 
-# Create the .mati directory
+# Create .mati directory
 mkdir -p "$MATI_DIR"
 
 # Download the repository as a ZIP file
@@ -56,7 +54,7 @@ fi
 echo "Extracting the /bin directory..."
 unzip -q "$TEMP_ZIP" "mati-main/bin/*" -d "$MATI_DIR/core"
 
-# Move the contents of /bin to the .mati directory 
+# Move the contents of /bin to .mati directory 
 mv "$MATI_DIR/core/mati-main/bin"/* "$MATI_DIR/core" 
 
 # Clean up
@@ -74,20 +72,26 @@ bun run "$(dirname "$0")/core/cli.js" "$@"
 EOF
 chmod +x "$MATI_EXE"
 
-# Register the wrapper script
+# Register the wrapper script based on available shell
 add_to_path() {
   local FILE="$1"
   if [ -f "$FILE" ]; then
     if ! grep -q "export PATH=\"\$PATH:$MATI_DIR\"" "$FILE"; then
       echo "Adding $MATI_DIR to PATH in $FILE..."
-      echo "export PATH=\"\$PATH:$MATI_DIR\"" >> "$FILE" 
+      echo "" >> "$FILE"
+      echo "# mati" >> "$FILE"
+      echo "export PATH=\"\$PATH:$MATI_DIR\"" >> "$FILE"
     fi
   fi
 }
 
-add_to_path "$HOME/.bashrc"
-add_to_path "$HOME/.zshrc"
+if [ -f "$HOME/.zshrc" ]; then
+  add_to_path "$HOME/.zshrc"
+fi
 
+if [ -f "$HOME/.bashrc" ]; then
+  add_to_path "$HOME/.bashrc"
+fi
 
 # Notify the user
 echo ""
