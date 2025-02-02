@@ -12236,7 +12236,9 @@ var createClient = (supabaseUrl, supabaseKey, options) => {
 };
 
 // core/supabase.ts
-var supabase_default = createClient(import.meta.env["PROJECT_URL"], import.meta.env["API_KEY"], {
+var PUBLIC_URL = "https://rrubwukbozlveswbvvyv.supabase.co";
+var PUBLIC_KEY = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJydWJ3dWtib3psdmVzd2J2dnl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc4OTkzNjEsImV4cCI6MjA1MzQ3NTM2MX0.arZ6M3n3vF5e9Hapy-gZ3xw15IGwDwV4IkWYxxonrzY`;
+var supabase_default = createClient(PUBLIC_URL, PUBLIC_KEY, {
   db: {
     schema: "public"
   },
